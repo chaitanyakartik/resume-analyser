@@ -30,6 +30,7 @@
                 <form id="resumeAnalysisForm" class="resume-form">
                     <div class="file-upload-wrapper">
                         <input type="file" id="resumeFile" name="resumeFile" accept=".pdf,.docx" required>
+                        <!-- The name attribute must match the field name expected by multer -->
                         <label for="resumeFile" class="file-upload-label">
                             <i class="fas fa-cloud-upload-alt"></i>
                             <span id="fileNameDisplay">Choose your resume file...</span>
@@ -99,28 +100,5 @@
     </footer>
 
     <script src="scripts.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const overallScoreValueText = document.getElementById('overallScoreValueText');
-            const scoreCirclePath = document.getElementById('scoreCirclePath');
-
-            // Example score value (replace with actual dynamic value from analysis)
-            const score = 7.9; // Ensure this value is dynamically fetched from your backend or logic
-            const maxScore = 10;
-
-            // Calculate percentage for the circular progress
-            const percentage = (score / maxScore) * 100;
-
-            // Update the score text
-            overallScoreValueText.textContent = score.toFixed(1);
-
-            // Set the stroke-dasharray and stroke-dashoffset for the circular progress
-            const circumference = 100; // Total circumference of the circle (adjust if needed)
-            const offset = circumference - (percentage / 100) * circumference;
-
-            scoreCirclePath.setAttribute('stroke-dasharray', `${circumference}`);
-            scoreCirclePath.setAttribute('stroke-dashoffset', `${offset}`);
-        });
-    </script>
 </body>
 </html>

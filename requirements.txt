@@ -1,0 +1,8 @@
+express
+multer
+pdf-parse
+@google/generative-ai
+dotenv
+express
+fs
+cors

@@ -38,16 +38,38 @@ document.addEventListener('DOMContentLoaded', () => {
             showLoading(true);
             clearPreviousResults();
             analysisResultsWrapper.classList.remove('results-fade-in'); // Remove for re-trigger
-
             try {
-                const analysisData = await mockBackendResumeAnalysis(file);
+                // Show loading message
+                showLoading(true, 'Analyzing resume... This may take up to a minute');
+                
+                // Create AbortController for timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => {
+                console.warn("Aborting due to timeout");
+                controller.abort();
+                }, 60000);
+                console.log('Timeout set for 60 seconds');
+                
+                // Modify the actualBackendResumeAnalysis function call to accept the signal
+                const analysisData = await actualBackendResumeAnalysis(file, controller.signal);
+                
+                // Clear timeout since we got a response
+                clearTimeout(timeoutId);
+                
+                // Display results
                 displayAnalysisResults(analysisData);
+                
                 // Add class after a slight delay to ensure elements are in DOM for transition
                 setTimeout(() => {
                     analysisResultsWrapper.classList.add('results-fade-in');
                 }, 10);
             } catch (error) {
-                displayError(error.message || 'An unexpected error occurred during analysis.');
+                // Special handling for timeout errors
+                if (error.name === 'AbortError') {
+                    displayError('Request timed out. The analysis is taking longer than expected.');
+                } else {
+                    displayError(error.message || 'An unexpected error occurred during analysis.');
+                }
             } finally {
                 showLoading(false);
             }
@@ -66,6 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
         errorMessageContainer.textContent = message;
         errorMessageContainer.style.display = 'block';
         analysisResultsWrapper.style.display = 'none';
+
+        // Prevent immediate reset by ensuring the error message persists
+        setTimeout(() => {
+            errorMessageContainer.style.opacity = '1'; // Ensure visibility
+        }, 0);
     }
 
     function clearPreviousResults() {
@@ -77,17 +104,38 @@ document.addEventListener('DOMContentLoaded', () => {
         generalRecommendationsList.innerHTML = '';
     }
 
-    async function mockBackendResumeAnalysis(file) {
-        console.log(`Simulating analysis for: ${file.name}`);
+    async function actualBackendResumeAnalysis(file, signal) {
+        const formData = new FormData();
+        formData.append('resumeFile', file);
         
-        return new Promise(async (resolve) => {
-            setTimeout(async () => {
-                // Dynamically import the JSON file
-                const response = await fetch('./analysis_format.json');
-                const analysisData = await response.json();
-                resolve(analysisData);
-            }, 2500);
-        });
+        try {
+            console.log('Sending request to backend...');
+            
+            const response = await fetch('http://localhost:3000/analyze-resume', {
+                method: 'POST',
+                body: formData,
+                // signal: signal // Add the signal here
+            });
+
+            console.log('Received response from backend:', response);
+            
+            if (!response.ok) {
+                const errorDetails = await response.text();
+                console.error('Backend error details:', errorDetails);
+                throw new Error('Failed to analyze resume. Please try again later.');
+            }
+            console.log('Parsing JSON response...');
+            return await response.json();
+        } catch (error) {
+            console.error('Error connecting to backend:', error);
+            
+            // Pass the AbortError up to the caller
+            if (error.name === 'AbortError') {
+                throw error;
+            }
+            
+            throw new Error('Could not connect to the server. Please ensure the server is running and accessible.');
+        }
     }
 
     function displayAnalysisResults(data) {
@@ -226,20 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             return card;
         }
-
-        // --- End of Inner Helper Functions ---
-
-        // Assuming these DOM elements are accessible in this scope
-        // If not, they should be queried here, e.g., document.getElementById(...)
-        // For example:
-        // const analysisResultsWrapper = document.getElementById('analysisResultsWrapper');
-        // const errorMessageContainer = document.getElementById('errorMessageContainer');
-        // const overallScoreValueText = document.getElementById('overallScoreValueText');
-        // const scoreCirclePath = document.getElementById('scoreCirclePath'); // SVG Path Element
-        // const overallSummaryText = document.getElementById('overallSummaryText');
-        // const detailedParametersContainer = document.getElementById('detailedParametersContainer');
-        // const generalRecommendationsList = document.getElementById('generalRecommendationsList');
-
 
         if (!analysisResultsWrapper || !errorMessageContainer || !overallScoreValueText || !scoreCirclePath || !overallSummaryText || !detailedParametersContainer || !generalRecommendationsList) {
             console.error("One or more required DOM elements for displayAnalysisResults are missing.");
