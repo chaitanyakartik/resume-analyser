@@ -1,0 +1,496 @@
+/* General Body Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.7;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+/* Header & Navigation */
+header {
+    background: #ffffff;
+    color: #333;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+header .logo a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: normal;
+}
+
+header .logo a strong {
+    font-weight: bold;
+    color: #007bff; /* Primary color */
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+header nav ul li {
+    margin: 0 1.2rem;
+}
+
+header nav ul li a {
+    color: #555;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover,
+header nav ul li a.active {
+    color: #007bff; /* Primary color */
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0, 123, 255, 0.05), rgba(0, 123, 255, 0.05)), url('your-background-image.jpg') no-repeat center center/cover; /* Optional: Add a subtle background image */
+    background-color: #e9f5ff; /* Fallback if image doesn't load */
+    color: #333;
+    padding: 5rem 1rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh; /* Make hero section taller */
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    color: #222;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #444;
+}
+
+/* Call to Action Buttons */
+.cta-button {
+    background: #007bff; /* Primary color */
+    color: #fff;
+    padding: 0.8rem 2rem;
+    text-decoration: none;
+    border-radius: 25px; /* Rounded corners */
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.cta-button:hover {
+    background: #0056b3; /* Darker primary color */
+    transform: translateY(-2px);
+}
+
+.cta-button.secondary {
+    background: #6c757d; /* Secondary color */
+    box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+}
+
+.cta-button.secondary:hover {
+    background: #545b62; /* Darker secondary color */
+}
+
+.cta-container {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+/* Info Sections (How it works, Benefits, Templates) */
+.info-section {
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.info-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 700px;
+    margin: 0 auto 3rem auto;
+}
+
+.info-section.alt-bg {
+    background-color: #ffffff; /* White background for alternate sections */
+}
+
+/* Grids for Features, Benefits, Template Features */
+.features-grid, .benefits-grid, .template-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.feature-item, .benefit-item, .template-feature-item {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-item:hover, .benefit-item:hover, .template-feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.feature-item h3, .benefit-item h3, .template-feature-item h3 {
+    font-size: 1.3rem;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: #007bff; /* Primary color for headings */
+}
+
+.feature-item p, .benefit-item p, .template-feature-item p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Icons */
+.feature-icon, .benefit-icon, .template-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block; /* Center icon */
+    text-align: center;
+    color: #007bff; /* Primary color */
+}
+
+.benefit-icon {
+    color: #28a745; /* Green for benefits */
+}
+.benefit-item h3 {
+    color: #28a745;
+}
+
+.template-icon {
+    color: #ffc107; /* Yellow/Orange for templates */
+}
+.template-feature-item h3 {
+    color: #ffc107;
+}
+
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    background: #333;
+    color: #f0f0f0;
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin: 0.3rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    .hero p {
+        font-size: 1rem;
+    }
+    .info-section h2 {
+        font-size: 1.8rem;
+    }
+    header nav {
+        flex-direction: column;
+    }
+    header nav ul {
+        margin-top: 1rem;
+    }
+    header nav ul li {
+        margin: 0 0.7rem;
+    }
+    .features-grid, .benefits-grid, .template-features-grid {
+        grid-template-columns: 1fr; /* Stack items on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    header .logo a {
+        font-size: 1.3rem;
+    }
+    header nav ul li a {
+        font-size: 0.9rem;
+    }
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    .hero p {
+        font-size: 0.9rem;
+    }
+    .cta-button {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Resume Analysis Results Section */
+.results-wrapper {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.results-wrapper h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+/* Fix for Enhanced Score Display Alignment */
+.score-display {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.score-circular-progress {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.score-max-text {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 0.5rem; /* Add spacing between the score and max text */
+    text-align: center; /* Ensure proper alignment */
+}
+
+.circular-chart {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.circle-bg, .circle {
+    transform: rotate(-90deg); /* Rotate only the circular paths */
+    transform-origin: center;
+}
+
+.circle-bg {
+    fill: none; /* Ensures the background circle is not filled */
+    stroke: #e6e6e6; /* Light grey color for the background */
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none; /* Ensures the circle is not filled */
+    stroke: #007bff; /* Primary color for the progress bar */
+    stroke-width: 3.8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s ease; /* Smooth animation for progress */
+}
+
+.score-percentage {
+    font-size: 1.2rem;
+    font-weight: bold;
+    fill: #333;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    transform: none; /* Ensure the text is not rotated */
+}
+
+.summary-text {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 1rem;
+}
+
+.parameters-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns of equal width */
+    gap: 16px; /* Adjust spacing between items as needed */
+    margin-top: 2rem;
+}
+
+.parameter-card {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.parameter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.parameter-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #007bff; /* Primary color */
+}
+
+.parameter-card p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.general-recommendations-card {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.general-recommendations-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #28a745; /* Green for recommendations */
+}
+
+.general-recommendations-card ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+}
+
+.general-recommendations-card ul li {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+/* Loading Indicator */
+.loading-indicator {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.loading-indicator .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #e6e6e6;
+    border-top: 5px solid #007bff; /* Primary color */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-indicator p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Error Message Box */
+.error-message-box {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* In your CSS file */
+.parameter-card {
+    border-left: 5px solid var(--status-color, #ccc); /* Fallback color */
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+/* No need for JS to set borderLeft if using CSS variables like above,
+   or use specific classes: */
+.parameter-card--excellent { border-left-color: #28a745; }
+.parameter-card--good { border-left-color: #ffc107; }
+.parameter-card--needs-improvement { border-left-color: #dc3545; }
+
+.parameter-card__header { display: flex; align-items: center; margin-bottom: 0.75rem; }
+.parameter-card__title-icon { margin-right: 0.5rem; color: #555; /* Or use score-specific color */ }
+.parameter-card__name { margin: 0; font-size: 1.1rem; color: #333; }
+
+.parameter-card__score-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+.parameter-card__score-visual { display: flex; align-items: center; flex-grow: 1; }
+.mini-score-bar { background-color: #e9ecef; border-radius: 3px; height: 10px; flex-grow: 1; margin-right: 0.5rem; }
+.mini-score-bar__fill { height: 100%; border-radius: 3px; transition: width 0.5s ease-in-out; }
+/* .mini-score-bar__fill--excellent { background-color: #28a745; } (already done by inline style, but could be class based) */
+
+.parameter-card__status { font-weight: bold; padding: 0.2em 0.5em; border-radius: 3px; font-size:0.9em; }
+.parameter-card__status--excellent { color: #28a745; background-color: rgba(40, 167, 69, 0.1); }
+.parameter-card__status--good { color: #ffc107; background-color: rgba(255, 193, 7, 0.1); }
+.parameter-card__status--needs-improvement { color: #dc3545; background-color: rgba(220, 53, 69, 0.1); }
+
+.parameter-card__details-heading { margin-top: 1rem; margin-bottom: 0.5rem; font-size: 1rem; color: #444; }
+.parameter-card__details-heading > .fas { margin-right: 0.3em; }
+.parameter-card__list { list-style: none; padding-left: 0; }
+.parameter-card__list li { margin-bottom: 0.3rem; display:flex; align-items: flex-start; }
+.parameter-card__list .fas { margin-right: 0.5em; margin-top: 0.2em; } /* Align icons better with text */
+.findings-list__icon--negative { color: #dc3545; }
+.recommendations-list__icon--positive { color: #28a745; }
+
+.general-recommendations__item .fas { color: #ffc107; /* Gold star */ margin-right: 0.5em; }

@@ -1,0 +1,43 @@
+{ 
+    "analysisId": 3445,
+    "analysisTimestamp": 3445,
+    "overallScore": 7.8, 
+    "overallSummary": "Your resume has a strong foundation. Focusing on keyword optimization and quantifying achievements will elevate it further, significantly boosting its impact in the job market.",
+    "analysisParameters": [
+        {
+            "parameterName": "Keyword Relevance & ATS Optimization",
+            "score": 6.5, "status": "Needs Improvement",
+            "findings": ["Lacks specific keywords for 'Data Scientist' roles.", "Skills section could be more ATS-friendly."],
+            "recommendations": ["Integrate terms like 'Machine Learning', 'Python', 'R', 'Statistical Analysis'.", "Use standard fonts and avoid tables in skills section."]
+        },
+        {
+            "parameterName": "Action Verb Usage & Impact Statements",
+            "score": 8.2, "status": "Good",
+            "findings": ["Strong action verbs used frequently.", "Some bullet points describe duties, not accomplishments."],
+            "recommendations": ["Rephrase duty-oriented points to highlight results.", "Quantify impact where possible, e.g., 'Increased efficiency by 15%'."]
+        },
+        {
+            "parameterName": "Clarity, Conciseness & Readability",
+            "score": 9.0, "status": "Excellent",
+            "findings": ["Content is clear, professional, and easy to scan.", "Good use of bullet points."],
+            "recommendations": ["Maintain this standard. One final proofread is always beneficial."]
+        },
+        {
+            "parameterName": "Structure & Formatting Consistency",
+            "score": 7.5, "status": "Good",
+            "findings": ["Standard sections present.", "Consistent font use, but some date inconsistencies."],
+            "recommendations": ["Ensure all dates follow MM/YYYY format.", "Check for consistent spacing between sections."]
+        },
+        {
+            "parameterName": "Quantification of Achievements",
+            "score": 6.0, "status": "Needs Improvement",
+            "findings": ["Several achievements lack specific metrics.", "Impact not always demonstrated with data."],
+            "recommendations": ["Add numbers: 'Managed a team of 5', 'Reduced costs by $10K'.", "Use the STAR method to frame achievements with quantifiable results."]
+        }
+    ],
+    "generalRecommendations": [
+        "Tailor this resume for each specific job application.",
+        "Update your LinkedIn profile to align with your improved resume.",
+        "Prepare to discuss quantified achievements during interviews."
+    ]
+}

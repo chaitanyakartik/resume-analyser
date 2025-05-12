@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis - Resume Analyser</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">Resume<strong>Analyser</strong></a>
+            </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resume-analysis.html" class="active">Resume Analysis</a></li>
+                <li><a href="resume-templates.html">Resume Templates</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="analysis-tool-section">
+            <div class="container">
+                <h1>Analyse Your Resume</h1>
+                <p class="section-subtitle">Upload your resume (PDF or DOCX) to receive instant, detailed feedback and actionable suggestions for improvement.</p>
+
+                <form id="resumeAnalysisForm" class="resume-form">
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="resumeFile" name="resumeFile" accept=".pdf,.docx" required>
+                        <label for="resumeFile" class="file-upload-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="fileNameDisplay">Choose your resume file...</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="cta-button analyse-button">
+                        <i class="fas fa-cogs"></i> Analyse My Resume
+                    </button>
+                </form>
+
+                <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Analysing your resume, this may take a moment...</p>
+                </div>
+
+                <div id="errorMessage" class="error-message-box" style="display: none;">
+                    <!-- Error messages will appear here -->
+                </div>
+
+                <div id="analysisResultsWrapper" class="results-wrapper" style="display: none;">
+                    <h2>Your Resume Analysis Report</h2>
+
+                    <div class="overall-score-card">
+                        <h3>Overall Resume Score</h3>
+                        <div class="score-display">
+                            <!-- Enhanced Score Display - e.g., Circular Progress or stylized bar -->
+                            <div class="score-circular-progress">
+                                <svg viewBox="0 0 36 36" class="circular-chart">
+                                    <path class="circle-bg"
+                                        d="M18 2.0845
+                                          a 15.9155 15.9155 0 0 1 0 31.831
+                                          a 15.9155 15.9155 0 0 1 0 -31.831"
+                                    />
+                                    <path id="scoreCirclePath" class="circle"
+                                        stroke-dasharray="0, 100" 
+                                        d="M18 2.0845
+                                          a 15.9155 15.9155 0 0 1 0 31.831
+                                          a 15.9155 15.9155 0 0 1 0 -31.831"
+                                    />
+                                    <text x="18" y="20.35" class="score-percentage" id="overallScoreValueText">0.0</text>
+                                </svg>
+                            </div>
+                            <div class="score-max-text">/ 10</div>
+                        </div>
+                        <p id="overallSummaryText" class="summary-text"></p>
+                    </div>
+
+                    <h3>Detailed Breakdown</h3>
+                    <div id="detailedParametersContainer" class="parameters-grid">
+                        <!-- Parameter cards will be injected here by JavaScript -->
+                    </div>
+
+                    <div class="general-recommendations-card">
+                        <h3><i class="fas fa-clipboard-check"></i> General Recommendations</h3>
+                        <ul id="generalRecommendationsList">
+                            <!-- General recommendations will be injected here by JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 ResumeAnalyser. All rights reserved.</p>
+        <p>Empowering your job search journey.</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const overallScoreValueText = document.getElementById('overallScoreValueText');
+            const scoreCirclePath = document.getElementById('scoreCirclePath');
+
+            // Example score value (replace with actual dynamic value from analysis)
+            const score = 7.9; // Ensure this value is dynamically fetched from your backend or logic
+            const maxScore = 10;
+
+            // Calculate percentage for the circular progress
+            const percentage = (score / maxScore) * 100;
+
+            // Update the score text
+            overallScoreValueText.textContent = score.toFixed(1);
+
+            // Set the stroke-dasharray and stroke-dashoffset for the circular progress
+            const circumference = 100; // Total circumference of the circle (adjust if needed)
+            const offset = circumference - (percentage / 100) * circumference;
+
+            scoreCirclePath.setAttribute('stroke-dasharray', `${circumference}`);
+            scoreCirclePath.setAttribute('stroke-dashoffset', `${offset}`);
+        });
+    </script>
+</body>
+</html>
