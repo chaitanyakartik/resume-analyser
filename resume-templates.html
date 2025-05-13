@@ -3,33 +3,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Templates</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Resume Templates - ResumeAnalyser</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Custom styles (if any) can go here or in styles.css */
+        body {
+            font-family: 'Inter', sans-serif; /* A common, clean sans-serif font */
+        }
+        .logo strong {
+            color: #2563eb; /* A blue accent color, adjust as needed */
+        }
+        nav ul li a.active {
+            font-weight: 600;
+            color: #2563eb; /* Active link color */
+            border-bottom: 2px solid #2563eb;
+        }
+        .cta-button {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .template-card {
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .footer-bg {
+            background-color: #f9fafb; /* A light gray background for the footer */
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="resume-analysis.html">Resume Analysis</a></li>
-                <li><a href="resume-templates.html">Resume Templates</a></li>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="logo text-2xl font-bold text-gray-700">
+                <a href="index.html">Resume<strong>Analyser</strong></a>
+            </div>
+            <ul class="flex space-x-6 items-center">
+                <li><a href="index.html" class="text-gray-600 hover:text-blue-600 pb-1">Home</a></li>
+                <li><a href="resume-analysis.html" class="text-gray-600 hover:text-blue-600 pb-1">Resume Analysis</a></li>
+                <li><a href="resume-templates.html" class="text-gray-600 hover:text-blue-600 pb-1 active">Resume Templates</a></li>
             </ul>
         </nav>
     </header>
-    <main>
-        <section class="templates">
-            <h1>Resume Templates</h1>
-            <div class="template-gallery">
-                <!-- Placeholder for template previews -->
-                <div class="template">Template 1</div>
-                <div class="template">Template 2</div>
-                <div class="template">Template 3</div>
+
+    <main class="py-12">
+        <section class="templates-section">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl font-bold text-center text-gray-800 mb-4">Professionally Designed Resume Templates</h1>
+                <p class="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+                    Choose from our curated selection of resume templates (PDF format). Each designed to impress recruiters and help you land your dream job.
+                    Easy to customize and ATS-friendly.
+                </p>
+
+                <div id="templateGallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="template-card bg-white rounded-lg shadow-lg overflow-hidden p-6 flex flex-col">
+                        <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center mb-4">
+                            <i class="fas fa-file-pdf fa-4x text-gray-400"></i> {/* Changed icon to PDF */}
+                            </div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Modern Chronological</h3>
+                        <p class="text-gray-600 text-sm mb-4 flex-grow">
+                            A clean and professional chronological template, perfect for showcasing your work history and achievements.
+                        </p>
+                        <div class="mt-auto flex space-x-3">
+                            <button onclick="previewTemplate('modern_chronological')" class="flex-1 cta-button bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-eye mr-2"></i>Preview
+                            </button>
+                            <!-- Updated download link for PDF -->
+                            <a href="./templates/modern_chronological_template.pdf" download="modern_chronological_template.pdf" class="flex-1 cta-button bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i>Download PDF
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="template-card bg-white rounded-lg shadow-lg overflow-hidden p-6 flex flex-col">
+                        <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center mb-4">
+                            <i class="fas fa-file-pdf fa-4x text-gray-400"></i> {/* Changed icon to PDF */}
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Creative Functional</h3>
+                        <p class="text-gray-600 text-sm mb-4 flex-grow">
+                            Ideal for career changers or those with diverse skills. Highlights abilities over strict timelines.
+                        </p>
+                        <div class="mt-auto flex space-x-3">
+                            <button onclick="previewTemplate('creative_functional')" class="flex-1 cta-button bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-eye mr-2"></i>Preview
+                            </button>
+                            <!-- Updated download link for PDF -->
+                            <a href="./templates/creative_functional_template.pdf" download="creative_functional_template.pdf" class="flex-1 cta-button bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i>Download PDF
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="template-card bg-white rounded-lg shadow-lg overflow-hidden p-6 flex flex-col">
+                        <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center mb-4">
+                            <i class="fas fa-file-pdf fa-4x text-gray-400"></i> {/* Changed icon to PDF */}
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Entry-Level Special</h3>
+                        <p class="text-gray-600 text-sm mb-4 flex-grow">
+                            Designed for students and recent graduates to emphasize education, projects, and potential.
+                        </p>
+                        <div class="mt-auto flex space-x-3">
+                            <button onclick="previewTemplate('entry_level_special')" class="flex-1 cta-button bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-eye mr-2"></i>Preview
+                            </button>
+                            <!-- Updated download link for PDF -->
+                            <a href="./templates/entry_level_template.pdf" download="entry_level_template.pdf" class="flex-1 cta-button bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i>Download PDF
+                            </a>
+                        </div>
+                    </div>
+
+                     <div class="template-card bg-white rounded-lg shadow-lg overflow-hidden p-6 flex flex-col">
+                        <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center mb-4">
+                            <i class="fas fa-file-pdf fa-4x text-gray-400"></i> {/* Changed icon to PDF */}
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Minimalist Design</h3>
+                        <p class="text-gray-600 text-sm mb-4 flex-grow">
+                            A sleek, minimalist template focusing on content clarity and readability. Great for technical roles.
+                        </p>
+                        <div class="mt-auto flex space-x-3">
+                            <button onclick="previewTemplate('minimalist_design')" class="flex-1 cta-button bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-eye mr-2"></i>Preview
+                            </button>
+                            <!-- Updated download link for PDF -->
+                            <a href="./templates/minimalist_template.pdf" download="minimalist_template.pdf" class="flex-1 cta-button bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i>Download PDF
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="template-card bg-white rounded-lg shadow-lg overflow-hidden p-6 flex flex-col">
+                        <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center mb-4">
+                            <i class="fas fa-file-pdf fa-4x text-gray-400"></i> {/* Changed icon to PDF */}
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Executive Profile</h3>
+                        <p class="text-gray-600 text-sm mb-4 flex-grow">
+                            A sophisticated template for senior-level professionals, emphasizing leadership and impact.
+                        </p>
+                        <div class="mt-auto flex space-x-3">
+                            <button onclick="previewTemplate('executive_profile')" class="flex-1 cta-button bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-eye mr-2"></i>Preview
+                            </button>
+                            <!-- Updated download link for PDF -->
+                            <a href="./templates/executive_template.pdf" download="executive_template.pdf" class="flex-1 cta-button bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i>Download PDF
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="template-card bg-white rounded-lg shadow-lg overflow-hidden p-6 flex flex-col">
+                        <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center mb-4">
+                            <i class="fas fa-file-pdf fa-4x text-gray-400"></i> {/* Changed icon to PDF */}
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Tech Portfolio</h3>
+                        <p class="text-gray-600 text-sm mb-4 flex-grow">
+                            Designed for developers and tech professionals to showcase projects, skills, and contributions.
+                        </p>
+                        <div class="mt-auto flex space-x-3">
+                            <button onclick="previewTemplate('tech_portfolio')" class="flex-1 cta-button bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-eye mr-2"></i>Preview
+                            </button>
+                            <!-- Updated download link for PDF -->
+                            <a href="./templates/tech_portfolio_template.pdf" download="tech_portfolio_template.pdf" class="flex-1 cta-button bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i>Download PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
+
+        <div id="templatePreviewModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="modalTitle" class="text-2xl font-semibold">Template Preview</h2>
+                    <button onclick="closePreviewModal()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                        <i class="fas fa-times-circle"></i>
+                    </button>
+                </div>
+                <div id="modalContent" class="text-center">
+                    {/* The image preview will show a placeholder. For actual PDF previews,
+                        you might need a more complex solution like an iframe or a PDF.js library.
+                        For simplicity, we'll keep using an image placeholder. */}
+                    <img id="modalImagePreview" src="https://placehold.co/800x1100/e2e8f0/94a3b8?text=PDF+Template+Preview" alt="Template Preview" class="max-w-full h-auto rounded-md border">
+                    <p id="modalDescription" class="mt-4 text-gray-600"></p>
+                </div>
+                <div class="mt-6 text-right">
+                     <!-- Updated download link for PDF -->
+                     <a id="modalDownloadButton" href="#" download="template.pdf" class="cta-button bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center justify-center">
+                        <i class="fas fa-download mr-2"></i>Download PDF
+                    </a>
+                    <button onclick="closePreviewModal()" class="cta-button bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg ml-2">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </main>
-    <footer>
-        <p>&copy; 2023 Resume Analyser</p>
+
+    <footer class="footer-bg border-t border-gray-200 py-8 text-center">
+        <div class="container mx-auto px-6">
+            <p class="text-gray-600">&copy; <span id="currentYear">2023</span> ResumeAnalyser. All rights reserved.</p>
+            <p class="text-gray-500 text-sm mt-1">Empowering your job search journey.</p>
+            <div class="mt-3">
+                <a href="#" class="text-gray-500 hover:text-blue-600 mx-2"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-gray-500 hover:text-blue-600 mx-2"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-gray-500 hover:text-blue-600 mx-2"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
     </footer>
-    <script src="scripts.js"></script>
-</body>
+
+    <script>
+        // Basic script for dynamic year in footer and modal functionality
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const templatePreviewModal = document.getElementById('templatePreviewModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalImagePreview = document.getElementById('modalImagePreview');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalDownloadButton = document.getElementById('modalDownloadButton');
+
+        // Placeholder template data (replace with actual data or dynamic fetching)
+        // IMPORTANT: Update downloadLink to point to your actual PDF files.
+        // For previewImage, if you want to show an actual preview of the PDF,
+        // you'd typically use a thumbnail image (e.g., a PNG screenshot of the PDF's first page).
+        // Displaying a full PDF in the modal usually requires a library like PDF.js or an iframe.
+        // For simplicity, we're still using placeholder images.
+        const templatesData = {
+            modern_chronological: {
+                name: "Modern Chronological (PDF)",
+                description: "A clean and professional chronological template in PDF format, perfect for showcasing your work history and achievements. ATS-friendly and easy to customize.",
+                previewImage: "https://placehold.co/800x1100/e2e8f0/3b82f6?text=Modern+Chronological+PDF",
+                downloadLink: "./templates/modern_chronological_template.pdf" // EXAMPLE PATH: Update this
+            },
+            creative_functional: {
+                name: "Creative Functional (PDF)",
+                description: "Ideal for career changers or those with diverse skills. Highlights abilities over strict timelines. Visually appealing and unique PDF template.",
+                previewImage: "https://placehold.co/800x1100/e2e8f0/10b981?text=Creative+Functional+PDF",
+                downloadLink: "./templates/creative_functional_template.pdf" // EXAMPLE PATH: Update this
+            },
+            entry_level_special: {
+                name: "Entry-Level Special (PDF)",
+                description: "Designed for students and recent graduates to emphasize education, projects, and potential. PDF format gets you noticed.",
+                previewImage: "https://placehold.co/800x1100/e2e8f0/f59e0b?text=Entry-Level+Special+PDF",
+                downloadLink: "./templates/entry_level_template.pdf" // EXAMPLE PATH: Update this
+            },
+            minimalist_design: {
+                name: "Minimalist Design (PDF)",
+                description: "A sleek, minimalist PDF template focusing on content clarity and readability. Great for technical roles and those who prefer a straightforward approach.",
+                previewImage: "https://placehold.co/800x1100/e2e8f0/6b7280?text=Minimalist+Design+PDF",
+                downloadLink: "./templates/minimalist_template.pdf" // EXAMPLE PATH: Update this
+            },
+            executive_profile: {
+                name: "Executive Profile (PDF)",
+                description: "A sophisticated PDF template for senior-level professionals, emphasizing leadership, strategic impact, and key accomplishments.",
+                previewImage: "https://placehold.co/800x1100/e2e8f0/4f46e5?text=Executive+Profile+PDF",
+                downloadLink: "./templates/executive_template.pdf" // EXAMPLE PATH: Update this
+            },
+            tech_portfolio: {
+                name: "Tech Portfolio (PDF)",
+                description: "Designed for developers, engineers, and tech professionals to showcase projects, technical skills, and contributions with clarity in PDF format.",
+                previewImage: "https://placehold.co/800x1100/e2e8f0/ec4899?text=Tech+Portfolio+PDF",
+                downloadLink: "./templates/tech_portfolio_template.pdf" // EXAMPLE PATH: Update this
+            }
+        };
+
+        function previewTemplate(templateKey) {
+            const template = templatesData[templateKey];
+            if (template) {
+                modalTitle.textContent = template.name + " - Preview";
+                modalImagePreview.src = template.previewImage; // This will show a placeholder or a thumbnail image
+                modalImagePreview.alt = template.name + " Preview";
+                modalDescription.textContent = template.description;
+                modalDownloadButton.href = template.downloadLink;
+                // Ensure the suggested download filename is .pdf
+                modalDownloadButton.setAttribute('download', templateKey.replace(/\s+/g, '_') + '_template.pdf');
+                templatePreviewModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                console.error("Template data not found for key:", templateKey);
+                modalTitle.textContent = "Preview Not Available";
+                modalImagePreview.src = "https://placehold.co/800x1100/e2e8f0/ef4444?text=Preview+Error";
+                modalDescription.textContent = "Sorry, the preview for this template could not be loaded.";
+                modalDownloadButton.href = "#";
+                templatePreviewModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closePreviewModal() {
+            templatePreviewModal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Restore background scrolling
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && !templatePreviewModal.classList.contains('hidden')) {
+                closePreviewModal();
+            }
+        });
+
+        templatePreviewModal.addEventListener('click', function(event) {
+            if (event.target === templatePreviewModal) {
+                closePreviewModal();
+            }
+        });
+
+    </script>
+    </body>
 </html>
