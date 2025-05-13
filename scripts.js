@@ -45,20 +45,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Create AbortController for timeout
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => {
-                console.warn("Aborting due to timeout");
-                controller.abort();
+                    console.warn("Aborting due to timeout");
+                    controller.abort();
                 }, 60000);
                 console.log('Timeout set for 60 seconds');
                 
-                // Modify the actualBackendResumeAnalysis function call to accept the signal
+                // Get analysis data from backend
                 const analysisData = await actualBackendResumeAnalysis(file, controller.signal);
                 
                 // Clear timeout since we got a response
                 clearTimeout(timeoutId);
+
+                // Sanitize and parse the analysis field if it's a string
+                const parsedAnalysis = typeof analysisData.analysis === 'string' 
+                    ? JSON.parse(analysisData.analysis.replace(/```json|```/g, '').trim()) 
+                    : analysisData.analysis;
                 
-                // Display results
-                displayAnalysisResults(analysisData);
-                
+                // saveAnalysisToLocalFile(parsedAnalysis); // Save analysis to local file
+
+                displayAnalysisResults(parsedAnalysis);
+
                 // Add class after a slight delay to ensure elements are in DOM for transition
                 setTimeout(() => {
                     analysisResultsWrapper.classList.add('results-fade-in');
@@ -114,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('http://localhost:3000/analyze-resume', {
                 method: 'POST',
                 body: formData,
-                // signal: signal // Add the signal here
+                signal: signal // Add the signal here
             });
 
             console.log('Received response from backend:', response);
@@ -138,13 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function displayAnalysisResults(data) {
-        // --- Start of Inner Helper Functions ---
-
-        /**
-         * Configuration for visual elements and parameters.
-         * This could be an external object or defined here.
-         */
+    function displayAnalysisResults(analysis) {
+        // Define the CONFIG object
         const CONFIG = {
             colors: {
                 excellent: '#28a745', // Green
@@ -158,28 +159,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 good: 6
             },
             icons: {
-                // Parameter specific icons
                 defaultParam: 'fa-file-alt',
                 keyword: 'fa-tags',
                 'action verb': 'fa-rocket',
                 clarity: 'fa-glasses',
                 structure: 'fa-sitemap',
                 quantification: 'fa-chart-pie',
-                // UI element icons
                 findingsHeader: 'fa-search-plus',
                 recommendationsHeader: 'fa-magic',
-                findingItem: 'fa-times-circle', // Suggests a problem
-                recommendationItem: 'fa-check-circle', // Suggests a solution
+                findingItem: 'fa-times-circle',
+                recommendationItem: 'fa-check-circle',
                 generalRecommendation: 'fa-star'
             },
             overallScoreSVGCircumference: 2 * Math.PI * 15.9155 // Radius from original SVG path comment
         };
 
-        /**
-         * Gets styling attributes based on a score.
-         * @param {number} score - The numerical score.
-         * @returns {object} { color: string, classSuffix: string, label: string }
-         */
+        // Define the getScoreAttributes function
         function getScoreAttributes(score) {
             if (score >= CONFIG.scoreThresholds.excellent) {
                 return {
@@ -202,93 +197,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        /**
-         * Gets the specific Font Awesome icon class for a parameter name.
-         * @param {string} paramName - The name of the parameter.
-         * @returns {string} The Font Awesome icon class.
-         */
-        function getParamSpecificIcon(paramName) {
-            const pNameLower = paramName.toLowerCase();
-            for (const keyword in CONFIG.icons) {
-                // Check if it's a parameter keyword and not a generic UI icon keyword
-                if (keyword !== 'defaultParam' && keyword !== 'findingsHeader' && /* add other non-param keys */ keyword !== 'generalRecommendation' && pNameLower.includes(keyword)) {
-                    return CONFIG.icons[keyword];
-                }
-            }
-            return CONFIG.icons.defaultParam;
-        }
-
-        /**
-         * Creates the HTML element for a single detailed analysis parameter card.
-         * @param {object} paramData - The data for the parameter.
-         * @returns {HTMLElement} The parameter card element.
-         */
-        function createDetailedParamCard(paramData) {
-            const card = document.createElement('div');
-            const scoreAttrs = getScoreAttributes(paramData.score);
-            const paramIconClass = getParamSpecificIcon(paramData.parameterName);
-            const statusText = paramData.status || scoreAttrs.label; // Use provided status or default label
-
-            card.className = `parameter-card parameter-card--${scoreAttrs.classSuffix}`;
-            // CSS variable can be used for the border for more flexibility
-            card.style.setProperty('--status-color', scoreAttrs.color);
-            // Or, stick to direct style if simpler for your setup:
-            // card.style.borderLeft = `5px solid ${scoreAttrs.color}`;
-
-            card.innerHTML = `
-                <div class="parameter-card__header">
-                    <i class="fas ${paramIconClass} parameter-card__title-icon" aria-hidden="true"></i>
-                    <h4 class="parameter-card__name">${paramData.parameterName}</h4>
-                </div>
-                <div class="parameter-card__score-info">
-                    <div class="parameter-card__score-visual">
-                        <div class="mini-score-bar">
-                            <div class="mini-score-bar__fill mini-score-bar__fill--${scoreAttrs.classSuffix}" style="width: ${paramData.score * 10}%; background-color: ${scoreAttrs.color};"></div>
-                        </div>
-                        <span class="parameter-card__score-text">${paramData.score.toFixed(1)}/10</span>
-                    </div>
-                    <span class="parameter-card__status parameter-card__status--${scoreAttrs.classSuffix}">${statusText}</span>
-                </div>
-                <div class="parameter-card__details">
-                    <h5 class="parameter-card__details-heading">
-                        <i class="fas ${CONFIG.icons.findingsHeader}" aria-hidden="true"></i> Findings:
-                    </h5>
-                    <ul class="parameter-card__list findings-list">
-                        ${paramData.findings.map(finding => `
-                            <li class="findings-list__item">
-                                <i class="fas ${CONFIG.icons.findingItem} findings-list__icon findings-list__icon--negative" aria-hidden="true"></i>
-                                ${finding}
-                            </li>`).join('')}
-                    </ul>
-                    <h5 class="parameter-card__details-heading">
-                        <i class="fas ${CONFIG.icons.recommendationsHeader}" aria-hidden="true"></i> Recommendations:
-                    </h5>
-                    <ul class="parameter-card__list recommendations-list">
-                        ${paramData.recommendations.map(rec => `
-                            <li class="recommendations-list__item">
-                                <i class="fas ${CONFIG.icons.recommendationItem} recommendations-list__icon recommendations-list__icon--positive" aria-hidden="true"></i>
-                                ${rec}
-                            </li>`).join('')}
-                    </ul>
-                </div>
-            `;
-            return card;
-        }
-
-        if (!analysisResultsWrapper || !errorMessageContainer || !overallScoreValueText || !scoreCirclePath || !overallSummaryText || !detailedParametersContainer || !generalRecommendationsList) {
-            console.error("One or more required DOM elements for displayAnalysisResults are missing.");
-            return; // Exit if crucial elements are not found
-        }
-
-        analysisResultsWrapper.style.display = 'block';
-        errorMessageContainer.style.display = 'none';
-
         // Overall Score (Circular Progress)
-        const overallScore = data.overallScore;
+        const overallScore = typeof analysis.overallScore === 'number' ? analysis.overallScore : 0; // Default to 0 if undefined
         const overallScoreAttrs = getScoreAttributes(overallScore);
 
         overallScoreValueText.textContent = overallScore.toFixed(1);
-        overallScoreValueText.style.color = overallScoreAttrs.color; // Optional: color the text too
+        overallScoreValueText.style.color = overallScoreAttrs.color;
 
         const scorePercentage = (overallScore / 10) * 100;
         const strokeDashArray = `${(scorePercentage * CONFIG.overallScoreSVGCircumference) / 100}, ${CONFIG.overallScoreSVGCircumference}`;
@@ -296,23 +210,168 @@ document.addEventListener('DOMContentLoaded', () => {
         scoreCirclePath.style.stroke = overallScoreAttrs.color;
 
         // Overall Summary
-        overallSummaryText.textContent = data.overallSummary;
+        overallSummaryText.textContent = analysis.overallSummary || '';
 
         // Detailed Parameters
         detailedParametersContainer.innerHTML = ''; // Clear previous content
-        data.analysisParameters.forEach(param => {
-            const paramCardElement = createDetailedParamCard(param);
+        const analysisParameters = Array.isArray(analysis.analysisParameters) ? analysis.analysisParameters : [];
+        analysisParameters.forEach(param => {
+            const paramScore = typeof param.score === 'number' ? param.score : 0; // Default to 0 if undefined
+            const paramCardElement = createDetailedParamCard({ ...param, score: paramScore });
             detailedParametersContainer.appendChild(paramCardElement);
         });
 
         // General Recommendations
         generalRecommendationsList.innerHTML = ''; // Clear previous content
-        data.generalRecommendations.forEach(rec => {
+        const generalRecommendations = Array.isArray(analysis.generalRecommendations) ? analysis.generalRecommendations : [];
+        generalRecommendations.forEach(rec => {
             const listItem = document.createElement('li');
             listItem.className = 'general-recommendations__item';
-            // Using a more descriptive class for the icon color, e.g., 'icon--highlight'
             listItem.innerHTML = `<i class="fas ${CONFIG.icons.generalRecommendation} general-recommendations__icon" aria-hidden="true"></i> ${rec}`;
             generalRecommendationsList.appendChild(listItem);
         });
+
+        // Ensure the results wrapper is visible
+        analysisResultsWrapper.style.display = 'block';
+        errorMessageContainer.style.display = 'none';
+    }
+
+    // Function to save analysis data to a local JSON file
+    function saveAnalysisToLocalFile(data) {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary anchor element to trigger the download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'analysis.json';
+        document.body.appendChild(a);
+        a.click();
+
+        // Clean up
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // Function to read analysis data from a local JSON file
+    function readAnalysisFromLocalFile(callback) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/json';
+
+        input.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) {
+                displayError('No file selected.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    callback(data);
+                } catch (error) {
+                    displayError('Failed to parse JSON file.');
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // Trigger the file input dialog
+        input.click();
+    }
+
+    function createDetailedParamCard(param) {
+        const CONFIG = {
+            colors: {
+                excellent: '#28a745', // Green
+                good: '#ffc107',      // Yellow
+                needsImprovement: '#dc3545', // Red
+            },
+            scoreThresholds: {
+                excellent: 8,
+                good: 6
+            },
+            icons: {
+                defaultParam: 'fa-file-alt',
+                keyword: 'fa-tags',
+                'action verb': 'fa-rocket',
+                clarity: 'fa-glasses',
+                structure: 'fa-sitemap',
+                quantification: 'fa-chart-pie'
+            }
+        };
+
+        // Determine score attributes
+        function getScoreAttributes(score) {
+            if (score >= CONFIG.scoreThresholds.excellent) {
+                return {
+                    color: CONFIG.colors.excellent,
+                    label: 'Excellent'
+                };
+            } else if (score >= CONFIG.scoreThresholds.good) {
+                return {
+                    color: CONFIG.colors.good,
+                    label: 'Good'
+                };
+            } else {
+                return {
+                    color: CONFIG.colors.needsImprovement,
+                    label: 'Needs Improvement'
+                };
+            }
+        }
+
+        const scoreAttrs = getScoreAttributes(param.score);
+
+        // Create card container
+        const card = document.createElement('div');
+        card.className = 'detailed-param-card';
+
+        // Add icon
+        const icon = document.createElement('i');
+        icon.className = `fas ${CONFIG.icons[param.type] || CONFIG.icons.defaultParam} detailed-param-card__icon`;
+        icon.style.color = scoreAttrs.color;
+        card.appendChild(icon);
+
+        // Add title
+        const title = document.createElement('h3');
+        title.className = 'detailed-param-card__title';
+        title.textContent = param.parameterName || 'Unnamed Parameter';
+        card.appendChild(title);
+
+        // Add score
+        const score = document.createElement('p');
+        score.className = 'detailed-param-card__score';
+        score.textContent = `Score: ${param.score.toFixed(1)} (${scoreAttrs.label})`;
+        score.style.color = scoreAttrs.color;
+        card.appendChild(score);
+
+        // Add findings
+        if (Array.isArray(param.findings) && param.findings.length > 0) {
+            const findingsList = document.createElement('ul');
+            findingsList.className = 'detailed-param-card__findings';
+            param.findings.forEach(finding => {
+                const listItem = document.createElement('li');
+                listItem.textContent = finding;
+                findingsList.appendChild(listItem);
+            });
+            card.appendChild(findingsList);
+        }
+
+        // Add recommendations
+        if (Array.isArray(param.recommendations) && param.recommendations.length > 0) {
+            const recommendationsList = document.createElement('ul');
+            recommendationsList.className = 'detailed-param-card__recommendations';
+            param.recommendations.forEach(recommendation => {
+                const listItem = document.createElement('li');
+                listItem.textContent = recommendation;
+                recommendationsList.appendChild(listItem);
+            });
+            card.appendChild(recommendationsList);
+        }
+
+        return card;
     }
 });

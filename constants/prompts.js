@@ -11,7 +11,7 @@ Return a JSON object in the following format:
   "analysisId": <unique integer>,
   "analysisTimestamp": <epoch timestamp>,
   "overallScore": <float score out of 10>,
-  "overallSummary": "<short paragraph summarizing the resume quality>",
+  "overallSummary": "<short paragraph summarizing the resume quality. Also unclude name of the applicant, and some amount of personalization>",
   "analysisParameters": [
     {
       "parameterName": "<parameter title>",
